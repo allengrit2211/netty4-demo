@@ -19,4 +19,8 @@ repositories {
 dependencies {
     compile 'junit:junit:4.12'
     compile 'io.netty:netty-all:4.1.10.Final'
+    compile 'com.google.protobuf:protobuf-java:3.8.0'
+    compile"com.google.protobuf:protobuf-javalite:3.8.0"
+    compile 'com.google.protobuf:protobuf-java-util:3.8.0'
+
 }
