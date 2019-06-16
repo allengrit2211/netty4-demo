@@ -20,10 +20,11 @@ public class GrpcServer {
         System.out.println("server started!");
 
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            System.out.println("执行到这里");
+            System.out.println("关闭jvm");
             GrpcServer.this.stop();
-
         }));
+
+        System.out.println("执行到这里");
 
     }
 
