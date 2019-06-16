@@ -1,6 +1,19 @@
-plugins {
-    id 'java'
+
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
+    }
 }
+
+
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -24,4 +37,58 @@ dependencies {
     compile 'com.google.protobuf:protobuf-java-util:3.8.0'
     compile "org.apache.thrift:libthrift:0.11.0"
 
+    compile 'io.grpc:grpc-netty-shaded:1.21.0'
+    compile 'io.grpc:grpc-protobuf:1.21.0'
+    compile 'io.grpc:grpc-stub:1.21.0'
+
+    //For Android client, use grpc-okhttp instead of grpc-netty-shaded and grpc-protobuf-lite instead of grpc-protobuf:
+//    compile 'io.grpc:grpc-okhttp:1.21.0'
+//    compile 'io.grpc:grpc-protobuf-lite:1.21.0'
+//    compile 'io.grpc:grpc-stub:1.21.0'
+
 }
+
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/proto'
+        }
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+    test {
+        proto {
+            srcDir 'src/test/proto'
+        }
+        proto {
+            srcDir 'src/test/java'
+        }
+    }
+}
+
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.7.1"
+    }
+    generatedFilesBaseDir = "$projectDir/src"
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.21.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {
+                outputSubDir = "java"
+            }
+        }
+
+
+        // (Java only) returns tasks for a sourceSet
+        ofSourceSet('main')
+    }
+}
+
