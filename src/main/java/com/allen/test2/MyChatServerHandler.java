@@ -32,7 +32,6 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String> {
                 ch.writeAndFlush("【自己】" + msg + "\n");
             }
         }
-        channel.flush();
     }
 
     @Override
