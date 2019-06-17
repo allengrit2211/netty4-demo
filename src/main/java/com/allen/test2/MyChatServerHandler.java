@@ -24,18 +24,15 @@ public class MyChatServerHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         Channel channel = ctx.channel();
 
-        channelGroup.forEach(ch -> {
-            System.out.println("=====>>>>"+ch.remoteAddress());
-            System.out.println("channel="+channel);
-            System.out.println("ch="+ch);
+        System.out.println("服务器收到消息:"+msg);
+        for(Channel ch:channelGroup){
             if (ch != channel) {
-                ch.writeAndFlush(channel.remoteAddress() + " 发送的消息" + msg);
+                ch.writeAndFlush(channel.remoteAddress() + " 发送的消息" + msg+"\r\n");
             } else {
                 ch.writeAndFlush("【自己】" + msg + "\n");
             }
-
-        });
-
+        }
+        channel.flush();
     }
 
     @Override
