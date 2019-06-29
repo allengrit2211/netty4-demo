@@ -10,7 +10,7 @@ public class Client {
 
 
     public static void main(String[] args) {
-        Component component = new ConcreateDecorator2(new ConcreateDecorator1(new ConcreateComponent()));
+        Component component = new ConcreateDecorator2(new ConcreateDecorator1(new ConcreateComponent1()));
         component.doSomething();
     }
 }
